@@ -12,7 +12,13 @@ async def root():
     ip_address = socket.gethostbyname(hostname)
     return {
         "message": f"Hello, {ip_address} {hostname}",
-        "metadata": ec2_metadata.__dict__
+        "metadata": {
+            "public_ipv4": ec2_metadata.public_ipv4,
+            "public_hostname": ec2_metadata.public_hostname,
+            "region": ec2_metadata.region,
+            "instance_id": ec2_metadata.instance_id,
+            "domain": ec2_metadata.domain
+        }
     }
 
 
