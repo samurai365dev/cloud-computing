@@ -16,6 +16,8 @@ def do_scenario(s3_resource):
     bucket = s3_resource.Bucket(bucket_name)
     print(s3_resource.meta.client.meta.region_name, bucket_name)
     try:
+        # If you don’t specify a Region, the bucket is created in the 
+        # US East (N. Virginia) Region (us-east-1) by default.
         bucket.create()
         print(f"Created demo bucket named {bucket.name}.")
     except ClientError as err:
