@@ -17,7 +17,7 @@
 #
 # mysql --version
 
-# mysql -h db.cd02ia4k8ew2.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
+# mysql -h mysql.domain -P 3306 -u admin -p
 # source sql.txt
 
 
