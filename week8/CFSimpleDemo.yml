@@ -1,0 +1,35 @@
+# this is a comment
+AWSTemplateFormatVersion: 2010-09-09
+Description: A simple Cloudformation template demo to create a VPC
+Parameters:
+  VPCCidrBlock:
+    Type: String
+    Default: 10.0.0.0/16
+    # An array containing the list of values allowed for the parameter.
+    AllowedValues:
+      - 10.0.0.0/16
+      - 10.0.0.0/18
+      - 10.0.0.0/20
+    Description: Choose a CidrBlock for this VPC
+Resources:
+  CFSimpleDemo:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock:
+        # The intrinsic function Ref returns the value
+        # of the specified parameter or resource.
+        # full function name syntax in separate line
+        Ref: VPCCidrBlock
+      EnableDnsSupport: 'false'
+      EnableDnsHostnames: 'true'
+      Tags:
+        - Key: stack
+          Value: production
+Outputs:
+  CFSimpleDemoVPC:
+    Value: !Ref CFSimpleDemo # short syntax form
+    Description: The VPC Id
+    Export:
+      # The intrinsic function Fn::Sub substitutes
+      # variables in an input string with values that you specify.
+      Name: !Sub "${AWS::StackName}-VPCID"

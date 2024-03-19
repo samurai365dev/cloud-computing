@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: A demo of nested stack
+
+Parameters:
+  TemplatePath:
+    Type: String
+    Default: 'uno-cf'
+  VPCCidrBlock:
+    Type: String
+    Default: 10.0.0.0/16
+    # An array containing the list of values allowed for the parameter.
+    AllowedValues:
+      - 10.0.0.0/16
+      - 10.0.0.0/18
+      - 10.0.0.0/20
+
+  SubsetCidrBlock:
+    Type: String
+    Default: 10.0.1.0/26
+    AllowedValues:
+      - 10.0.1.0/26
+      - 10.0.2.0/26
+      - 10.0.3.0/26
+    Description: Choose a CidrBlock for this SubsetCidrBlock
+
+Resources:
+  #  three nested stacks
+  VPCStack:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      Parameters:
+        VPCCidrBlock: !Ref VPCCidrBlock
+      TemplateURL:
+        Fn::Sub: "https://${TemplatePath}.s3.amazonaws.com/CFSimpleDemo.yml"
+  SubsetStack:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      Parameters:
+        VPCID: !GetAtt VPCStack.Outputs.CFSimpleDemoVPC
+        SubsetCidrBlock: !Ref SubsetCidrBlock
+      TemplateURL:
+        Fn::Sub: "https://${TemplatePath}.s3.amazonaws.com/SubsetDemo.yml"
+
+  IGWStack:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      Parameters:
+        VPCID: !GetAtt VPCStack.Outputs.CFSimpleDemoVPC
+      TemplateURL:
+        Fn::Sub: "https://${TemplatePath}.s3.amazonaws.com/IGW.yml"

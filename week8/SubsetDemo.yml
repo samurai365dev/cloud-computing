@@ -1,0 +1,11 @@
+Parameters:
+  VPCID:
+    Type: String
+  SubsetCidrBlock:
+    Type: String
+Resources:
+  Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPCID
+      CidrBlock: !Ref SubsetCidrBlock

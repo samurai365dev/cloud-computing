@@ -1,0 +1,11 @@
+Parameters:
+  VPCID:
+    Type: String
+Resources:
+  IGW:
+    Type: "AWS::EC2::InternetGateway"
+  IGWAttachment:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId: !Ref VPCID
+      InternetGatewayId: !Ref IGW

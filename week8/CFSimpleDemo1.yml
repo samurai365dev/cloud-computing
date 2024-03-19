@@ -1,0 +1,23 @@
+# this is a comment
+AWSTemplateFormatVersion: 2010-09-09
+Description: A subset to demo VPC
+Parameters:
+  VPCStackName:
+    Type: String
+    Default: SimpleVPC
+  SubsetCidrBlock:
+    Type: String
+    Default: 10.0.1.0/26
+    AllowedValues:
+      - 10.0.1.0/26
+      - 10.0.2.0/26
+      - 10.0.3.0/26
+    Description: Choose a CidrBlock for this SubsetCidrBlock
+Resources:
+  mySubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Fn::ImportValue:
+          !Sub "${VPCStackName}-VPCID"
+      CidrBlock: !Ref SubsetCidrBlock
