@@ -6,8 +6,12 @@ on:
       - deploy
 jobs:
   deploy:
-    name: Upload to Amazon S3
+    name: List S3 buckets
     runs-on: ubuntu-latest
+    permissions:
+      # Fetch an OpenID Connect (OIDC) token.
+      # This requires id-token: write.
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
