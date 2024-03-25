@@ -18,7 +18,7 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::590183815216:role/Github_OIDC
+          role-to-assume: arn:aws:iam::590183815216:role/GitHub-Webidentity
           aws-region: us-east-1
       - name: List s3 files
         run: |
