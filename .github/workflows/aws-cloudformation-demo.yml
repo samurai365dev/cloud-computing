@@ -1,12 +1,12 @@
-name: AWS Github Action Github OIDC role
-run-name: ${{ github.actor }} is testing AWS Github Action Github OIDC role 🚀
+name: AWS Github Action Create Stack
+run-name: ${{ github.actor }} is creating stack 🚀
 on:
   push:
     branches:
       - deploy
 jobs:
   deploy:
-    name: List S3 buckets
+    name: Create CloudFormation Stack
     runs-on: ubuntu-latest
     permissions:
       # Fetch an OpenID Connect (OIDC) token.
@@ -24,4 +24,5 @@ jobs:
         run: |
           aws cloudformation create-stack \
           --stack-name github-stack \
+          --role-arn arn:aws:iam::590183815216:role/CloudFormation-Role\
           --template-url https://uno-cf.s3.amazonaws.com/CFSimpleDemo.yml

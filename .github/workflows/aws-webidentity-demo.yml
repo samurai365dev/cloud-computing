@@ -20,12 +20,3 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::590183815216:role/GitHub-Webidentity
           aws-region: us-east-1
-      - name: List s3 files
-        run: |
-          aws s3api list-buckets
-          aws cloudformation create-stack \
-          --stack-name myteststack \
-          --template-body file://sampletemplate.json \
-          --parameters \
-          ParameterKey=KeyPairName,ParameterValue=TestKey  \
-          ParameterKey=SubnetIDs,ParameterValue=SubnetID1
