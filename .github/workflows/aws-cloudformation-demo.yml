@@ -25,4 +25,4 @@ jobs:
           aws cloudformation create-stack \
           --stack-name github-stack \
           --role-arn arn:aws:iam::590183815216:role/CloudFormation-Role \
-          --template-url https://uno-cf.s3.amazonaws.com/CFSimpleDemo.yml
+          --template-url https://uno-cf.s3.amazonaws.com/CFSimpleDemo.yml 
