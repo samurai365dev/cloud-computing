@@ -5,7 +5,6 @@ outputs=$(aws cloudformation describe-stacks --stack-name ${stack_name} --region
 
 ip=$(echo "${outputs}" | jq '.[0].OutputValue' | tr -d '"')
 echo "${ip}"
-echo "${PRIVATE_KEY}"
 if [[ -z "${PRIVATE_KEY}" ]]
 then
   ssh -o StrictHostKeyChecking=no -i "~/.ssh/HaoyuSSH.pem" "ec2-user@${ip}" \

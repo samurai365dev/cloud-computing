@@ -21,7 +21,7 @@ async def root():
 
     try:
         return {
-            "message": f"Hello update, {ip_address} {hostname}",
+            "message": f"Hello update from gitHub actions, {ip_address} {hostname}",
             "metadata": {
                 "public_ipv4": ec2_metadata.public_ipv4,
                 "public_hostname": ec2_metadata.public_hostname,
