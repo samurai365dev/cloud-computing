@@ -54,7 +54,7 @@ Resources:
           pm2 start main.py
           cd ../nodejs
           npm ci  
-          npm build
+          npm run build
           pm2 start npm --name web -- start
 
 
