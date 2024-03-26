@@ -4,7 +4,7 @@ outputs=$(aws cloudformation describe-stacks --stack-name ${stack_name} --region
 ip=$(echo "${outputs}" | jq '.[0].OutputValue' | tr -d '"')
 echo "${ip}"
 
-if [ -z ${PRIVATE_KEY} ]
+if [ -z "${PRIVATE_KEY}" ]
 then
   ssh -o StrictHostKeyChecking=no -i "~/.ssh/HaoyuSSH.pem" "ec2-user@${ip}" \
   'cd /home/ec2-user/cloud-computing/nodejs;git config --global --add safe.directory /home/ec2-user/cloud-computing;\

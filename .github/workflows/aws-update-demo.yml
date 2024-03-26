@@ -21,9 +21,9 @@ jobs:
           role-to-assume: arn:aws:iam::590183815216:role/GitHub-Webidentity
           aws-region: us-east-1
       - name: Updating Web
-        run: |
-          echo $PRIVATE_KEY
-          cd week9
-          sudo bash update_restart.sh
         env:
           PRIVATE_KEY: ${{ secrets.SSHKEY }}
+        run: |
+          cd week9
+          sudo bash update_restart.sh
+        

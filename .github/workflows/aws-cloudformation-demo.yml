@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - deploy
+    paths:
+      - 'week9/cf/*.yml'
 jobs:
   deploy:
     name: Create CloudFormation Stack
