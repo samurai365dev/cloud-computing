@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Master stack which creates all required nested stacks
+
+Parameters:
+  TemplatePath:
+    Type: String
+    Default: 'uno-week9-cf'
+
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+    Default: dev
+  SSHKeyPair:
+    Type: AWS::EC2::KeyPair::KeyName
+
+Resources:
+  VPCStack:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL:
+        Fn::Sub: "https://${TemplatePath}.s3.amazonaws.com/vpc9.yml"
+
+  WebStack:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL:
+        Fn::Sub: "https://${TemplatePath}.s3.amazonaws.com/nodejs9.yml"
+      Parameters:
+        PublicSubnet:
+          Fn::GetAtt: VPCStack.Outputs.PublicSubnet
+        WebSecurityGroup:
+          Fn::GetAtt: VPCStack.Outputs.WebSecurityGroup
+        SSHKeyPair: !Ref SSHKeyPair
+        Environment: !Ref Environment
+
+
+Outputs:
+  FastAPI:
+    Value:
+      Fn::GetAtt: WebStack.Outputs.FastAPI
+  NextJS:
+    Value:
+      Fn::GetAtt: WebStack.Outputs.NextJS
+  IPv4:
+    Value: !GetAtt WebStack.Outputs.IPv4

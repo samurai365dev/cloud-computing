@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Mappings:
+  EnvironmentType:
+    dev:
+      instanceType: t2.micro
+      name: dev
+    prod:
+      instanceType: t3.small
+      name: prod
+
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+    Default: dev
+
+  SSHKeyPair:
+    Type: AWS::EC2::KeyPair::KeyName
+  WebSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup::Id"
+  PublicSubnet:
+    Type: "AWS::EC2::Subnet::Id"
+
+
+Resources:
+  FastAPI:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0d7a109bf30624c99
+      KeyName: !Ref SSHKeyPair
+      InstanceType: !FindInMap [ EnvironmentType, !Ref Environment, instanceType ]
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          GroupSet:
+            - Ref: WebSecurityGroup
+          SubnetId: !Ref PublicSubnet
+      UserData:
+        Fn::Base64:
+          !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install pip git nodejs npm -y
+          npm install -g pm2
+          make -p /home/ec2-user
+          cd /home/ec2-user
+          git clone https://github.com/CourseUNO/cloud-computing.git
+          cd cloud-computing
+          pip install -r requirements.txt
+          cd web
+          pm2 start main.py
+          cd ../nodejs
+          npm ci  
+          npm build
+          pm2 start npm --name web -- start
+
+
+Outputs:
+  IPv4:
+    Value: !GetAtt FastAPI.PublicIp
+  FastAPI:
+    Value: !Join
+      - ''
+      - - 'http://'
+        - !GetAtt
+          - FastAPI
+          - PublicIp
+        - ':8000'
+  NextJS:
+    Value: !Join
+      - ''
+      - - 'http://'
+        - !GetAtt
+          - FastAPI
+          - PublicIp
+        - ':3000'
