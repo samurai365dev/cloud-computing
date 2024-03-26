@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing AWS Github Action Github OIDC role 🚀
 on:
   push:
     branches:
-      - deploy
+      - deploy1
 jobs:
   deploy:
     name: List S3 buckets

@@ -22,7 +22,6 @@ jobs:
           aws-region: us-east-1
       - name: create stack
         run: |
-          aws cloudformation create-stack \
-          --stack-name github-stack \
-          --role-arn arn:aws:iam::590183815216:role/CloudFormation_Role \
-          --template-url https://uno-cf.s3.amazonaws.com/CFSimpleDemo.yml 
+          sudo apt-get install jq -y
+          cd week9
+          bash auto.sh
