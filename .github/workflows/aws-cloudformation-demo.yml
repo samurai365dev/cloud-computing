@@ -1,0 +1,29 @@
+name: AWS Github Action Create Stack
+run-name: ${{ github.actor }} is creating stack 🚀
+on:
+  push:
+    branches:
+      - deploy
+    paths:
+      - 'week9/cf/*.yml'
+jobs:
+  deploy:
+    name: Create CloudFormation Stack
+    runs-on: ubuntu-latest
+    permissions:
+      # Fetch an OpenID Connect (OIDC) token.
+      # This requires id-token: write.
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::590183815216:role/GitHub-Webidentity
+          aws-region: us-east-1
+      - name: create stack
+        run: |
+          sudo apt-get install jq -y
+          cd week9
+          bash auto.sh

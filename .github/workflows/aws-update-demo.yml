@@ -1,0 +1,29 @@
+name: AWS Github Action updating web server code
+run-name: ${{ github.actor }} is updating web server code 🚀
+on:
+  push:
+    branches:
+      - deploy
+jobs:
+  deploy:
+    name: Updating Web
+    runs-on: ubuntu-latest
+    permissions:
+      # Fetch an OpenID Connect (OIDC) token.
+      # This requires id-token: write.
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::590183815216:role/GitHub-Webidentity
+          aws-region: us-east-1
+      - name: Updating Web
+        env:
+          PRIVATE_KEY: ${{ secrets.SSHKEY }}
+        run: |
+          cd week9
+          bash update_restart.sh
+        

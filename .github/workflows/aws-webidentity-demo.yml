@@ -1,0 +1,22 @@
+name: AWS Github Action Github OIDC role
+run-name: ${{ github.actor }} is testing AWS Github Action Github OIDC role 🚀
+on:
+  push:
+    branches:
+      - deploy1
+jobs:
+  deploy:
+    name: List S3 buckets
+    runs-on: ubuntu-latest
+    permissions:
+      # Fetch an OpenID Connect (OIDC) token.
+      # This requires id-token: write.
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::590183815216:role/GitHub-Webidentity
+          aws-region: us-east-1
