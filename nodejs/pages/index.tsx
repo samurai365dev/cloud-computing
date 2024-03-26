@@ -5,7 +5,7 @@ const inter = Inter({subsets: ["latin"]});
 export default function Home() {
     return (
         <>
-            Hi from updates!
+            Hi from updates from GitHub Action!
         </>
     );
 }
