@@ -10,7 +10,6 @@ then
   'cd /home/ec2-user/cloud-computing/nodejs;git config --global --add safe.directory /home/ec2-user/cloud-computing;\
     sudo git checkout deploy; sudo bash update.sh' | cat
 else
-  echo "Running on GitHub Actions"
   echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
   ssh -o StrictHostKeyChecking=no -i private_key "ec2-user@${ip}" \
     'cd /home/ec2-user/cloud-computing/nodejs; sudo bash update.sh' | cat
