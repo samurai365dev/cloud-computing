@@ -25,5 +25,5 @@ jobs:
           PRIVATE_KEY: ${{ secrets.SSHKEY }}
         run: |
           cd week9
-          sudo bash update_restart.sh
+          bash update_restart.sh
         

@@ -1,3 +1,5 @@
+#! /bin/bash -x
+
 stack_name=week9
 outputs=$(aws cloudformation describe-stacks --stack-name ${stack_name} --region us-east-1 | jq '.Stacks[0].Outputs')
 
